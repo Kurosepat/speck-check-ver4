@@ -1,11 +1,15 @@
 {
-  "name": "spec-check-ver4",
+  "name": "relay-server",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "multer": "^1.4.5",
+    "node-fetch": "^2.6.7",
+    "cors": "^2.8.5",
+    "form-data": "^4.0.0"
   }
 }
