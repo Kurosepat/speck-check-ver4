@@ -20,7 +20,7 @@ app.post('/relay', upload.any(), async (req, res) => {
       formData.append(file.fieldname, file.buffer, file.originalname);
     }
 
-    const makeWebhookURL = 'https://hook.us2.make.com/ggm2mlmimmrpnwyz5p21mhhd0dmk29p7';
+    const makeWebhookURL = 'https://hook.us2.make.com/muv8zfwncnclqh7hil45i4csohlquzkh';
 
     const response = await fetch(makeWebhookURL, {
       method: 'POST',
