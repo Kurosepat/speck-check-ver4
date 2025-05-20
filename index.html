@@ -19,21 +19,25 @@
       <input type="text" name="shoin_id" required />
     </label>
 
-    <label>日付（自動）
-      <input type="text" name="date" id="today-date" readonly />
-    </label>
+    <label>所員IDまたは氏名（必須）
+  <input type="text" name="shoin_id" id="shoin_id" required />
+</label>
 
-    <label>整理番号（必須）
-      <input type="text" name="seiri_no" required />
-    </label>
+<label>日付（自動）
+  <input type="text" name="date" id="today-date" readonly />
+</label>
 
-    <label>明細書ファイル（.docx）
-      <input type="file" name="meisai" accept=".docx" required />
-    </label>
+<label>整理番号（必須）
+  <input type="text" name="seiri_no" id="seiri_no" required />
+</label>
 
-    <label>図面ファイル（PDF, 任意）
-      <input type="file" name="zumen" accept=".pdf" />
-    </label>
+<label>明細書ファイル（.docx）
+  <input type="file" name="meisai" id="meisaisho_file" accept=".docx" required />
+</label>
+
+<label>図面ファイル（PDF, 任意）
+  <input type="file" name="zumen" id="zumen_file" accept=".pdf" />
+</label>
 
     <button type="submit">AIチェックを開始</button>
     <a href="https://socho-tool.softr.app" target="_blank">🔐 所長用チェック管理ページはこちら</a>
