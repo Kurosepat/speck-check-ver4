@@ -65,17 +65,15 @@
     #result {
       white-space: pre-wrap;
       margin-top: 30px;
-      background: #111;
-      color: #eee;
+      background: white;
+      color: black;
       padding: 1rem;
       border-radius: 8px;
     }
-    #result::before {
-      content: "（ここにチェック結果が表示されます）\A\A";
-      white-space: pre-wrap;
+    #result:empty::before {
+      content: "（ここにチェック結果が表示されます）";
       color: #888;
       font-size: 0.85rem;
-      display: block;
     }
   </style>
 </head>
