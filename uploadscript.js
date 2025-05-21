@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
     formData.append('date', new Date().toISOString().slice(0, 10));
 
     try {
-      const response = await fetch('https://hook.us2.make.com/ggm2mlmimmrpnwyz5p21mhhd0dmk29p7', {
+      const response = await fetch('https://hook.us2.make.com/5h6de47sqqa6l4z2yf4rrd5plk6ekq2c', {
         method: 'POST',
         body: formData
       });
