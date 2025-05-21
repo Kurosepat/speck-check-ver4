@@ -56,6 +56,12 @@
     .drop-zone input[type="file"] {
       display: none;
     }
+    .file-name {
+      margin-top: 0.5rem;
+      color: #ccc;
+      font-size: 0.9rem;
+      text-align: left;
+    }
     .notice {
       font-size: 0.9rem;
       margin-top: 0.5rem;
@@ -94,7 +100,7 @@
     <div class="drop-zone" id="docxZone">
       明細書ファイル（.docx）を<br>ここにドラッグ＆ドロップ またはクリックして選択
       <input type="file" name="meisai" id="meisaisho_file" accept=".docx" required />
-      <div class="file-name" id="docx-name"></div> <!-- ← これ追加！ -->
+      <div class="file-name" id="docx-name"></div>
     </div>
     <div class="notice">明細書は .docx 形式でご提出ください。</div>
 
@@ -102,7 +108,7 @@
     <div class="drop-zone" id="pdfZone">
       図面ファイル（PDF, 任意）を<br>ここにドラッグ＆ドロップ またはクリックして選択
       <input type="file" name="zumen" id="zumen_file" accept=".pdf" />
-      <div class="file-name" id="pdf-name"></div> <!-- ← これ追加！ -->
+      <div class="file-name" id="pdf-name"></div>
     </div>
     <div class="notice">
       図面は PDF 形式（OCR化推奨）をご提出ください。特に、ブロック図やフローチャート等の文字が含まれている場合は、OCR化したものでお願いします。
@@ -117,10 +123,11 @@
     // 日付自動入力
     document.getElementById("today-date").value = new Date().toISOString().split('T')[0];
 
-    // ドラッグ＆ドロップ対応
-    function setupDropZone(zoneId, inputId) {
+    // ドラッグ＆ドロップとファイル名表示に対応
+    function setupDropZone(zoneId, inputId, nameId) {
       const zone = document.getElementById(zoneId);
       const input = document.getElementById(inputId);
+      const nameDisplay = document.getElementById(nameId);
 
       zone.addEventListener('click', () => input.click());
 
@@ -137,11 +144,20 @@
         e.preventDefault();
         zone.style.backgroundColor = '#333';
         input.files = e.dataTransfer.files;
+        if (input.files.length > 0) {
+          nameDisplay.textContent = input.files[0].name;
+        }
+      });
+
+      input.addEventListener('change', () => {
+        if (input.files.length > 0) {
+          nameDisplay.textContent = input.files[0].name;
+        }
       });
     }
 
-    setupDropZone('docxZone', 'meisaisho_file');
-    setupDropZone('pdfZone', 'zumen_file');
+    setupDropZone('docxZone', 'meisaisho_file', 'docx-name');
+    setupDropZone('pdfZone', 'zumen_file', 'pdf-name');
   </script>
 
   <script src="uploadscript.js"></script>
