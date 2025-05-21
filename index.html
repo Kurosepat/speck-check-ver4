@@ -1,3 +1,8 @@
+ご指摘ありがとうございます。現在の内容を反映した修正版の `index.html` を以下に全文提示します：
+
+---
+
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -5,47 +10,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>明細書AIチェック</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background: linear-gradient(to right, #bbb, #333); color: white; padding: 2rem; }
-    form { background: #222; padding: 2rem; border-radius: 8px; display: inline-block; width: 90%; max-width: 600px; }
-    input, button, label { display: block; width: 100%; margin: 1rem auto; padding: 0.5rem; border-radius: 5px; border: none; }
-    button { background-color: #2196f3; color: white; font-weight: bold; cursor: pointer; }
-    a { color: #66ccff; display: inline-block; margin-top: 1rem; text-decoration: none; }
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #bbb, #333);
+      color: white;
+      padding: 2rem;
+    }
+    form {
+      background: #222;
+      padding: 2rem;
+      border-radius: 8px;
+      display: inline-block;
+      width: 90%;
+      max-width: 600px;
+    }
+    .drop-zone {
+      border: 2px dashed #999;
+      padding: 2rem;
+      border-radius: 8px;
+      background-color: #333;
+      margin: 1.5rem auto 0.5rem auto;
+      cursor: pointer;
+    }
+    .drop-zone:hover {
+      background-color: #444;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    button {
+      background-color: #2196f3;
+      color: white;
+      font-weight: bold;
+      padding: 0.7rem;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    .notice {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 1.5rem;
+    }
   </style>
 </head>
 <body>
   <h1>明細書・特許請求の範囲・要約書AIチェック</h1>
   <form id="uploadForm">
-   
+
     <label>所員IDまたは氏名（必須）
-  <input type="text" name="shoin_id" id="shoin_id" required />
-</label>
+      <input type="text" name="shoin_id" id="shoin_id" required />
+    </label>
 
-<label>日付（自動）
-  <input type="text" name="date" id="today-date" readonly />
-</label>
+    <label>日付（自動）
+      <input type="text" name="date" id="today-date" readonly />
+    </label>
 
-<label>整理番号（必須）
-  <input type="text" name="seiri_no" id="seiri_no" required />
-</label>
+    <label>整理番号（必須）
+      <input type="text" name="seiri_no" id="seiri_no" required />
+    </label>
 
-<label>明細書ファイル（.docx）
-  <input type="file" name="meisai" id="meisaisho_file" accept=".docx" required />
-</label>
+    <label>明細書（必須）</label>
+    <div class="drop-zone" id="docxZone">
+      明細書ファイル（.docx）を<br>ここにドラッグ＆ドロップ またはクリックして選択
+      <input type="file" name="meisai" id="meisaisho_file" accept=".docx" required />
+    </div>
+    <div class="notice">明細書は .docx 形式でご提出ください。</div>
 
-<label>図面ファイル（PDF, 任意）
-  <input type="file" name="zumen" id="zumen_file" accept=".pdf" />
-</label>
+    <label>図面（任意）</label>
+    <div class="drop-zone" id="pdfZone">
+      図面ファイル（PDF, 任意）を<br>ここにドラッグ＆ドロップ またはクリックして選択
+      <input type="file" name="zumen" id="zumen_file" accept=".pdf" />
+    </div>
+    <div class="notice">図面は PDF 形式（OCR化推奨）をご提出ください。特に、ブロック図やフローチャート等の文字が含まれている場合は、OCR化したものでお願いします。</div>
 
     <button type="submit">AIチェックを開始</button>
-    <a href="https://socho-tool.softr.app" target="_blank">🔐 所長用チェック管理ページはこちら</a>
   </form>
 
-  <!-- ✅ Claudeの出力表示欄を追加 -->
   <div id="result" style="white-space: pre-wrap; margin-top: 20px;"></div>
 
-  <script src="uploadscript.js"></script>
   <script>
     document.getElementById("today-date").value = new Date().toISOString().split('T')[0];
+
+    document.getElementById("docxZone").addEventListener("click", () => {
+      document.getElementById("meisaisho_file").click();
+    });
+    document.getElementById("pdfZone").addEventListener("click", () => {
+      document.getElementById("zumen_file").click();
+    });
   </script>
+  <script src="uploadscript.js"></script>
 </body>
 </html>
