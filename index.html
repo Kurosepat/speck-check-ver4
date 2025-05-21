@@ -26,7 +26,7 @@
       display: block;
       text-align: left;
     }
-    input[type="text"] {
+    input[type="text"], input[type="file"] {
       width: 100%;
       padding: 0.5rem;
       margin-top: 0.5rem;
@@ -65,10 +65,20 @@
     #result {
       white-space: pre-wrap;
       margin-top: 30px;
-      background: white;
-      color: black;
+      background: #fff;
+      color: #000;
       padding: 1rem;
       border-radius: 8px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #result::before {
+      content: "（ここにチェック結果が表示されます）\A\A";
+      white-space: pre-wrap;
+      color: #555;
+      font-size: 0.9rem;
+      display: block;
     }
   </style>
 </head>
@@ -87,14 +97,14 @@
 
     <label for="meisaisho_file">明細書（必須）</label>
     <div class="drop-zone" id="docxZone">
-      明細書ファイル（.docx）を<br>ここにドラッグ＆ドロップ またはクリックして選択
+      <span id="docxLabel">明細書ファイル（.docx）を<br>ここにドラッグ＆ドロップ またはクリックして選択</span>
       <input type="file" name="meisai" id="meisaisho_file" accept=".docx" required />
     </div>
     <div class="notice">明細書は .docx 形式でご提出ください。</div>
 
     <label for="zumen_file">図面（任意）</label>
     <div class="drop-zone" id="pdfZone">
-      図面ファイル（PDF, 任意）を<br>ここにドラッグ＆ドロップ またはクリックして選択
+      <span id="pdfLabel">図面ファイル（PDF, 任意）を<br>ここにドラッグ＆ドロップ またはクリックして選択</span>
       <input type="file" name="zumen" id="zumen_file" accept=".pdf" />
     </div>
     <div class="notice">図面は PDF 形式（OCR化推奨）をご提出ください。特に、ブロック図やフローチャート等の文字が含まれている場合は、OCR化したものでお願いします。</div>
@@ -105,9 +115,17 @@
   <div id="result"></div>
 
   <script>
+    // 日付自動入力
     document.getElementById("today-date").value = new Date().toISOString().split('T')[0];
 
-    function setupDropZone(zoneId, inputId) {
+    // ファイル名表示用関数
+    function updateFileNameDisplay(labelId, fileName) {
+      if (!fileName) return;
+      const label = document.getElementById(labelId);
+      label.innerHTML = `<strong>${fileName}</strong><br>別のファイルを選ぶにはクリックまたはドラッグ`;
+    }
+
+    function setupDropZone(zoneId, inputId, labelId) {
       const zone = document.getElementById(zoneId);
       const input = document.getElementById(inputId);
 
@@ -126,21 +144,16 @@
         e.preventDefault();
         zone.style.backgroundColor = '#333';
         input.files = e.dataTransfer.files;
-        updateFileNameDisplay(zone, input.files[0]?.name);
+        updateFileNameDisplay(labelId, input.files[0]?.name);
       });
 
       input.addEventListener('change', () => {
-        updateFileNameDisplay(zone, input.files[0]?.name);
+        updateFileNameDisplay(labelId, input.files[0]?.name);
       });
     }
 
-    function updateFileNameDisplay(zone, fileName) {
-      if (!fileName) return;
-      zone.innerHTML = `<strong>${fileName}</strong><br>別のファイルを選ぶにはクリックまたはドラッグ`;
-    }
-
-    setupDropZone('docxZone', 'meisaisho_file');
-    setupDropZone('pdfZone', 'zumen_file');
+    setupDropZone('docxZone', 'meisaisho_file', 'docxLabel');
+    setupDropZone('pdfZone', 'zumen_file', 'pdfLabel');
   </script>
 
   <script src="uploadscript.js"></script>
