@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -21,62 +20,79 @@
       width: 90%;
       max-width: 600px;
     }
-    .drop-zone {
-      border: 2px dashed #999;
-      padding: 2rem;
-      border-radius: 8px;
-      background-color: #333;
-      margin: 1.5rem auto 0.5rem auto;
-      cursor: pointer;
+    label {
+      font-weight: bold;
+      margin-top: 1rem;
+      display: block;
+      text-align: left;
     }
-    .drop-zone:hover {
-      background-color: #444;
-    }
-    input[type="file"] {
-      display: none;
+    input[type="text"], input[type="file"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      border-radius: 5px;
+      border: none;
     }
     button {
       background-color: #2196f3;
       color: white;
       font-weight: bold;
-      padding: 0.7rem;
-      border-radius: 5px;
-      border: none;
       cursor: pointer;
+      padding: 0.75rem;
       width: 100%;
+      border: none;
+      border-radius: 5px;
+      margin-top: 2rem;
+    }
+    .drop-zone {
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      padding: 1.5rem;
       margin-top: 1rem;
+      background-color: #333;
+      cursor: pointer;
+      position: relative;
+    }
+    .drop-zone input[type="file"] {
+      display: none;
     }
     .notice {
       font-size: 0.9rem;
-      color: #ccc;
-      margin-bottom: 1.5rem;
+      margin-top: 0.5rem;
+      color: #ddd;
+      text-align: left;
+    }
+    #result {
+      white-space: pre-wrap;
+      margin-top: 30px;
+      background: white;
+      color: black;
+      padding: 1rem;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
   <h1>明細書・特許請求の範囲・要約書AIチェック</h1>
+
   <form id="uploadForm">
+    <label for="shoin_id">所員IDまたは氏名（必須）</label>
+    <input type="text" name="shoin_id" id="shoin_id" required />
 
-    <label>所員IDまたは氏名（必須）
-      <input type="text" name="shoin_id" id="shoin_id" required />
-    </label>
+    <label for="today-date">日付（自動）</label>
+    <input type="text" name="date" id="today-date" readonly />
 
-    <label>日付（自動）
-      <input type="text" name="date" id="today-date" readonly />
-    </label>
+    <label for="seiri_no">整理番号（必須）</label>
+    <input type="text" name="seiri_no" id="seiri_no" required />
 
-    <label>整理番号（必須）
-      <input type="text" name="seiri_no" id="seiri_no" required />
-    </label>
-
-    <label>明細書（必須）</label>
+    <label for="meisaisho_file">明細書（必須）</label>
     <div class="drop-zone" id="docxZone">
       明細書ファイル（.docx）を<br>ここにドラッグ＆ドロップ またはクリックして選択
       <input type="file" name="meisai" id="meisaisho_file" accept=".docx" required />
     </div>
     <div class="notice">明細書は .docx 形式でご提出ください。</div>
 
-    <label>図面（任意）</label>
+    <label for="zumen_file">図面（任意）</label>
     <div class="drop-zone" id="pdfZone">
       図面ファイル（PDF, 任意）を<br>ここにドラッグ＆ドロップ またはクリックして選択
       <input type="file" name="zumen" id="zumen_file" accept=".pdf" />
@@ -86,18 +102,39 @@
     <button type="submit">AIチェックを開始</button>
   </form>
 
-  <div id="result" style="white-space: pre-wrap; margin-top: 20px;"></div>
+  <div id="result"></div>
 
   <script>
+    // 日付自動入力
     document.getElementById("today-date").value = new Date().toISOString().split('T')[0];
 
-    document.getElementById("docxZone").addEventListener("click", () => {
-      document.getElementById("meisaisho_file").click();
-    });
-    document.getElementById("pdfZone").addEventListener("click", () => {
-      document.getElementById("zumen_file").click();
-    });
+    // ドラッグ＆ドロップ対応
+    function setupDropZone(zoneId, inputId) {
+      const zone = document.getElementById(zoneId);
+      const input = document.getElementById(inputId);
+
+      zone.addEventListener('click', () => input.click());
+
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        zone.style.backgroundColor = '#444';
+      });
+
+      zone.addEventListener('dragleave', () => {
+        zone.style.backgroundColor = '#333';
+      });
+
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.style.backgroundColor = '#333';
+        input.files = e.dataTransfer.files;
+      });
+    }
+
+    setupDropZone('docxZone', 'meisaisho_file');
+    setupDropZone('pdfZone', 'zumen_file');
   </script>
+
   <script src="uploadscript.js"></script>
 </body>
 </html>
