@@ -2,13 +2,17 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('uploadForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    const resultBox = document.getElementById('resultBox');
+    resultBox.innerHTML = '🔄 処理を開始しました。AIがチェック中です...';
+
     const shoinId = document.getElementById('shoin_id').value.trim();
     const seiriNo = document.getElementById('seiri_no').value.trim();
     const meisaishoFile = document.getElementById('meisaisho_file').files[0];
     const zumenFile = document.getElementById('zumen_file').files[0];
 
     if (!shoinId || !seiriNo || !meisaishoFile) {
-      alert('必須項目（所員ID・整理番号・明細書ファイル）をすべて入力してください。');
+      alert('❗ 必須項目（所員ID・整理番号・明細書ファイル）をすべて入力してください。');
+      resultBox.innerHTML = ''; // 入力不備なら表示リセット
       return;
     }
 
@@ -17,23 +21,24 @@ window.addEventListener('DOMContentLoaded', () => {
     formData.append('seiri_no', seiriNo);
     formData.append('meisaisho_file', meisaishoFile);
     if (zumenFile) formData.append('zumen_file', zumenFile);
-    formData.append('date', new Date().toISOString().slice(0, 10));
+    formData.append('date', new Date().toISOString().slice(0, 10)); // 今日の日付（自動）
 
     try {
-      const response = await fetch('https://hook.us2.make.com/5h6de47sqqa6l4z2yf4rrd5plk6ekq2c', {
+      const response = await fetch('/relay', {
         method: 'POST',
         body: formData
       });
 
+      const resultText = await response.text();
+
       if (response.ok) {
-        alert('アップロードが成功しました。AIチェックを実行中です。');
-        document.getElementById('uploadForm').reset();
+        resultBox.innerHTML = resultText;
       } else {
-        alert('アップロードに失敗しました。しばらくしてから再試行してください。');
+        resultBox.innerHTML = `❌ エラーが発生しました（Make側）:<br>${resultText}`;
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('エラーが発生しました。ネットワーク接続をご確認ください。');
+      console.error('通信エラー:', error);
+      resultBox.innerHTML = '⚠️ ネットワークエラーが発生しました。再度お試しください。';
     }
   });
 });
