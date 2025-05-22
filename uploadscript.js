@@ -2,8 +2,8 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('uploadForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const resultBox = document.getElementById('resultBox');
-    resultBox.innerHTML = '🔄 処理を開始しました。AIがチェック中です...';
+    const result = document.getElementById('result');
+    result.innerHTML = '🔄 処理を開始しました。AIがチェック中です...';
 
     const shoinId = document.getElementById('shoin_id').value.trim();
     const seiriNo = document.getElementById('seiri_no').value.trim();
@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (!shoinId || !seiriNo || !meisaishoFile) {
       alert('❗ 必須項目（所員ID・整理番号・明細書ファイル）をすべて入力してください。');
-      resultBox.innerHTML = ''; // 入力不備なら表示リセット
+      result.innerHTML = ''; // 入力不備なら表示リセット
       return;
     }
 
@@ -32,13 +32,13 @@ window.addEventListener('DOMContentLoaded', () => {
       const resultText = await response.text();
 
       if (response.ok) {
-        resultBox.innerHTML = resultText;
+        result.innerHTML = resultText;
       } else {
-        resultBox.innerHTML = `❌ エラーが発生しました（Make側）:<br>${resultText}`;
+        result.innerHTML = `❌ エラーが発生しました（Make側）:<br>${resultText}`;
       }
     } catch (error) {
       console.error('通信エラー:', error);
-      resultBox.innerHTML = '⚠️ ネットワークエラーが発生しました。再度お試しください。';
+      result.innerHTML = '⚠️ ネットワークエラーが発生しました。再度お試しください。';
     }
   });
 });
