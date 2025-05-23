@@ -91,9 +91,8 @@
       content: "（ここにチェック結果が表示されます）";
       color: #888;
       font-size: 0.85rem;
-       }
+    }
 
-    /* 🔽 ここから追記！ */
     .loading-dots::after {
       content: '';
       display: inline-block;
@@ -105,19 +104,18 @@
     }
 
     @keyframes dotloop {
-      0%   { content: ''; }
-      10%  { content: '.'; }
-      20%  { content: '..'; }
-      30%  { content: '...'; }
-      40%  { content: '....'; }
-      50%  { content: '.....'; }
-      60%  { content: '......'; }
-      70%  { content: '.......'; }
-      80%  { content: '........'; }
-      90%  { content: '.........'; }
+      0% { content: ''; }
+      10% { content: '.'; }
+      20% { content: '..'; }
+      30% { content: '...'; }
+      40% { content: '....'; }
+      50% { content: '.....'; }
+      60% { content: '......'; }
+      70% { content: '.......'; }
+      80% { content: '........'; }
+      90% { content: '.........'; }
       100% { content: '..........'; }
     }
-
   </style>
 </head>
 <body>
@@ -138,7 +136,7 @@
       <input type="file" name="meisai" id="meisaisho_file" accept=".docx" required />
       <div class="file-display" id="docx-display" style="display: none;">
         <span class="file-label" id="docx-name"></span>
-        <span class="remove-btn">🗑</span>
+        <span class="remove-btn" id="remove-docx">🗑</span>
       </div>
     </div>
     <div class="notice">明細書は .docx 形式でご提出ください。</div>
@@ -148,10 +146,9 @@
       <span class="placeholder">図面ファイル（PDF, 任意）を<br>ここにドラッグ＆ドロップ またはクリックして選択</span>
       <input type="file" name="zumen" id="zumen_file" accept=".pdf" />
       <div class="file-display" id="pdf-display" style="display: none;">
-  <span class="file-label" id="pdf-name"></span>
-  <span class="remove-btn" id="remove-pdf">🗑</span>
-</div>
-
+        <span class="file-label" id="pdf-name"></span>
+        <span class="remove-btn" id="remove-pdf">🗑</span>
+      </div>
     </div>
     <div class="notice">
       図面は PDF 形式（OCR化推奨）をご提出ください。特に、ブロック図やフローチャート等の文字が含まれている場合は、OCR化したものでお願いします。
@@ -197,7 +194,12 @@
       zone.addEventListener('drop', (e) => {
         e.preventDefault();
         zone.style.backgroundColor = '#333';
-        input.files = e.dataTransfer.files;
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          const dt = new DataTransfer();
+          dt.items.add(files[0]);
+          input.files = dt.files;
+        }
         updateDisplay();
       });
 
@@ -211,6 +213,5 @@
     setupDropZone('docxZone', 'meisaisho_file', 'docx-name', 'remove-docx', 'docx-display');
     setupDropZone('pdfZone', 'zumen_file', 'pdf-name', 'remove-pdf', 'pdf-display');
   </script>
-
 </body>
 </html>
