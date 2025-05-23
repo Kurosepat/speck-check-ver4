@@ -3,7 +3,12 @@ window.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const result = document.getElementById('result');
-    result.innerHTML = '🔄 処理を開始しました。AIがチェック中です...';
+    // スピナー表示（CSSアニメーション付き）
+    result.innerHTML = `
+      <div id="spinner">
+        🔄 <span class="spin">AIがチェック中です...</span>
+      </div>
+    `;
 
     const shoinId = document.getElementById('shoin_id').value.trim();
     const seiriNo = document.getElementById('seiri_no').value.trim();
@@ -33,11 +38,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
       if (response.ok) {
         result.innerHTML = resultText
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/\\n/g, '<br>')
-  .replace(/\n/g, '<br>');
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\\n/g, '<br>')
+          .replace(/\n/g, '<br>');
       } else {
         result.innerHTML = `❌ エラーが発生しました（Make側）:<br>${resultText}`;
       }
