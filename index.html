@@ -91,17 +91,33 @@
       content: "（ここにチェック結果が表示されます）";
       color: #888;
       font-size: 0.85rem;
-    }
-    
-        .spin {
+       }
+
+    /* 🔽 ここから追記！ */
+    .loading-dots::after {
+      content: '';
       display: inline-block;
-      animation: spin 1s linear infinite;
+      animation: dotloop 2s steps(10, end) infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: bottom;
+      font-weight: bold;
     }
 
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
+    @keyframes dotloop {
+      0%   { content: ''; }
+      10%  { content: '.'; }
+      20%  { content: '..'; }
+      30%  { content: '...'; }
+      40%  { content: '....'; }
+      50%  { content: '.....'; }
+      60%  { content: '......'; }
+      70%  { content: '.......'; }
+      80%  { content: '........'; }
+      90%  { content: '.........'; }
+      100% { content: '..........'; }
     }
+
   </style>
 </head>
 <body>
