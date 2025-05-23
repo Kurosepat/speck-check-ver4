@@ -3,12 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const result = document.getElementById('result');
-    // スピナー表示（CSSアニメーション付き）
-    result.innerHTML = `
-      <div id="spinner">
-        🔄 <span class="spin">AIがチェック中です...</span>
-      </div>
-    `;
+    result.innerHTML = '<span class="loading-dots">AIがチェック中です</span>';
 
     const shoinId = document.getElementById('shoin_id').value.trim();
     const seiriNo = document.getElementById('seiri_no').value.trim();
