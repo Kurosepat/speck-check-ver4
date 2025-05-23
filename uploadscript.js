@@ -32,7 +32,12 @@ window.addEventListener('DOMContentLoaded', () => {
       const resultText = await response.text();
 
       if (response.ok) {
-        result.innerHTML = resultText.replace(/\n/g, '<br>');
+        result.innerHTML = resultText
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/\\n/g, '<br>')
+  .replace(/\n/g, '<br>');
       } else {
         result.innerHTML = `❌ エラーが発生しました（Make側）:<br>${resultText}`;
       }
