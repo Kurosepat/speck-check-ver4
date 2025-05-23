@@ -4,7 +4,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const shoinId = document.getElementById('shoin_id').value.trim();
     const seiriNo = document.getElementById('seiri_no').value.trim();
-    const meisaishoFile = document.getElementById('meisaisho_file').files[0];
+    const meisaishoFile = document.getElementById('meisai_file').files[0];
     const zumenFile = document.getElementById('zumen_file').files[0];
 
     if (!shoinId || !seiriNo || !meisaishoFile) {
