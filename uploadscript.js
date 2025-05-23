@@ -32,11 +32,11 @@ window.addEventListener('DOMContentLoaded', () => {
        window.location.href = "https://kurosepat.github.io/spec-check-ver4/result.html?result=" + encodeURIComponent(resultText);
       } 
       else {
-        result.innerHTML = `❌ エラーが発生しました（Make側）:<br>${resultText}`;
+       `❌ エラーが発生しました（Make側）:<br>${resultText}`;
       }
     } catch (error) {
       console.error('通信エラー:', error);
-      result.innerHTML = '⚠️ ネットワークエラーが発生しました。再度お試しください。';
+      '⚠️ ネットワークエラーが発生しました。再度お試しください。';
     }
   });
 });
