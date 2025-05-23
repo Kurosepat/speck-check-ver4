@@ -29,7 +29,7 @@ app.post('/relay', upload.any(), async (req, res) => {
     }
 
     // 🔹 Make Webhook先のURL
-    const makeWebhookURL = 'https://hook.us2.make.com/5h6de47sqqa6l4z2yf4rrd5plk6ekq2c';
+    const makeWebhookURL = 'https://hook.us2.make.com/2ol8xktrs84tkud4bgdvbab057x1822t';
 
     // 🔹 MakeへPOST送信
     const response = await fetch(makeWebhookURL, {
