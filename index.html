@@ -130,10 +130,10 @@
     <label for="seiri_no">整理番号（必須）</label>
     <input type="text" name="seiri_no" id="seiri_no" required />
 
-    <label for="meisaisho_file">明細書（必須）</label>
+    <label for="meisai_file">明細書（必須）</label>
     <div class="drop-zone" id="docxZone">
       <span class="placeholder">明細書ファイル（.docx）を<br>ここにドラッグ＆ドロップ またはクリックして選択</span>
-      <input type="file" name="meisaisho" id="meisaisho_file" accept=".docx" required />
+      <input type="file" name="meisai" id="meisai_file" accept=".docx" required />
       <div class="file-display" id="docx-display" style="display: none;">
         <span class="file-label" id="docx-name"></span>
         <span class="remove-btn" id="remove-docx">🗑</span>
@@ -209,7 +209,7 @@
       });
     }
 
-    setupDropZone('docxZone', 'meisaisho_file', 'docx-name', 'remove-docx', 'docx-display');
+    setupDropZone('docxZone', 'meisai_file', 'docx-name', 'remove-docx', 'docx-display');
     setupDropZone('pdfZone', 'zumen_file', 'pdf-name', 'remove-pdf', 'pdf-display');
   </script>
 </body>
