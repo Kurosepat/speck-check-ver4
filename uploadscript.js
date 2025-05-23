@@ -2,9 +2,6 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('uploadForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const result = document.getElementById('result');
-    result.innerHTML = '🔄 処理を開始しました。AIがチェック中です<span class="loading-dots"></span>';
-
     const shoinId = document.getElementById('shoin_id').value.trim();
     const seiriNo = document.getElementById('seiri_no').value.trim();
     const meisaishoFile = document.getElementById('meisaisho_file').files[0];
@@ -32,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const resultText = await response.text();
 
       if (response.ok) {
-        result.innerHTML = resultText
+       window.location.href = "https://kurosepat.github.io/spec-check-ver4/result.html?result=" + encodeURIComponent(resultText);
           .replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
