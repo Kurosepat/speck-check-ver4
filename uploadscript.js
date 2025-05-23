@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const result = document.getElementById('result');
-    result.innerHTML = '<span class="loading-dots">AIがチェック中です</span>';
+    result.innerHTML = '🔄 処理を開始しました。AIがチェック中です<span class="loading-dots"></span>';
 
     const shoinId = document.getElementById('shoin_id').value.trim();
     const seiriNo = document.getElementById('seiri_no').value.trim();
