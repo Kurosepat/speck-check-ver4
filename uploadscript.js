@@ -30,11 +30,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
       if (response.ok) {
        window.location.href = "https://kurosepat.github.io/spec-check-ver4/result.html?result=" + encodeURIComponent(resultText);
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/\\n/g, '<br>')
-          .replace(/\n/g, '<br>');
       } else {
         result.innerHTML = `❌ エラーが発生しました（Make側）:<br>${resultText}`;
       }
