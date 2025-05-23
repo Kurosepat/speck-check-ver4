@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
     formData.append('date', new Date().toISOString().slice(0, 10));
 
     try {
-      const response = await fetch('/relay', {
+      const response = await fetch('https://hook.us2.make.com/7ya79qm3ttvxoq6taks4wvto37hrcfjb', {
         method: 'POST',
         body: formData
       });
