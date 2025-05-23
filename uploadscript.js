@@ -12,16 +12,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (!shoinId || !seiriNo || !meisaishoFile) {
       alert('❗ 必須項目（所員ID・整理番号・明細書ファイル）をすべて入力してください。');
-      result.innerHTML = ''; // 入力不備なら表示リセット
+      result.innerHTML = '';
       return;
     }
 
     const formData = new FormData();
     formData.append('shoin_id', shoinId);
     formData.append('seiri_no', seiriNo);
-    formData.append('meisaisho_file', meisaishoFile);
-    if (zumenFile) formData.append('zumen_file', zumenFile);
-    formData.append('date', new Date().toISOString().slice(0, 10)); // 今日の日付（自動）
+    formData.append('meisai', meisaishoFile); // ✅ 正しいキー名
+    if (zumenFile) formData.append('zumen', zumenFile); // ✅ 正しいキー名
+    formData.append('date', new Date().toISOString().slice(0, 10));
 
     try {
       const response = await fetch('/relay', {
