@@ -7,54 +7,54 @@ const FormData = require('form-data');
 
 const app = express();
 const upload = multer();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.static(path.join(__dirname))); // 静的HTML/JS読み込み
+app.use(express.static(path.join(__dirname))); // 静的ファイル読み込み
 
-// 📄 フォーム画面表示（upload.htmlなど）
+// 📄 ルートでindex.htmlを返す
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'upload.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// 🔁 Make中継エンドポイント
+// 🔁 /relayエンドポイントでMakeへ転送
 app.post('/relay', upload.any(), async (req, res) => {
   try {
     const formData = new FormData();
 
-    // テキスト入力項目の転送
+    // テキスト入力の転送
     formData.append('shoin_id', req.body.shoin_id || '');
     formData.append('seiri_no', req.body.seiri_no || '');
     formData.append('date', req.body.date || '');
 
-    // ファイルの転送
+    // ファイルの転送（meisai, zumen対応）
     for (const file of req.files) {
       formData.append(file.fieldname, file.buffer, file.originalname);
     }
 
-    // ✅ Make Webhook 実URL
+    // ✅ 指定のMake Webhook URLに送信
     const makeWebhookURL = 'https://hook.us2.make.com/5h6de47sqqa6l4z2yf4rrd5plk6ekq2c';
 
-    // Makeへ送信
     const response = await fetch(makeWebhookURL, {
       method: 'POST',
       body: formData,
       headers: formData.getHeaders()
     });
 
-    const resultText = await response.text(); // ← Makeが返すHTMLまたは文字列
+    const resultText = await response.text();
 
     if (response.ok) {
-      res.status(200).send(resultText); // ← Webページに返す本文（チェック結果表示に使う）
+      res.status(200).send(resultText);
     } else {
       res.status(response.status).send(`Make側エラー: ${resultText}`);
     }
   } catch (error) {
-    console.error('中継エラー:', error);
+    console.error('中継サーバーエラー:', error);
     res.status(500).send('中継サーバー内部エラー');
   }
 });
 
-app.listen(port, () => {
-  console.log(`中継サーバー起動中: http://localhost:${port}`);
+// 🚀 Render対応ポートで起動
+app.listen(PORT, () => {
+  console.log(`中継サーバー起動中: http://localhost:${PORT}`);
 });
