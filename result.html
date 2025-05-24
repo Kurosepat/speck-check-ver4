@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>明細書AI分析結果</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to right, #bbb, #333);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      margin-bottom: 2rem;
+      font-size: 1.5rem;
+    }
+    .loading-dots::after {
+      content: '';
+      display: inline-block;
+      animation: dotloop 2s steps(20, end) infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: bottom;
+      font-weight: bold;
+    }
+    @keyframes dotloop {
+      0%   { content: ''; }
+      5%   { content: '.'; }
+      10%  { content: '..'; }
+      15%  { content: '...'; }
+      20%  { content: '....'; }
+      25%  { content: '.....'; }
+      30%  { content: '......'; }
+      35%  { content: '.......'; }
+      40%  { content: '........'; }
+      45%  { content: '.........'; }
+      50%  { content: '..........'; }
+      55%  { content: '...........'; }
+      60%  { content: '............'; }
+      65%  { content: '.............'; }
+      70%  { content: '..............'; }
+      75%  { content: '...............'; }
+      80%  { content: '................'; }
+      85%  { content: '.................'; }
+      90%  { content: '..................'; }
+      95%  { content: '...................'; }
+      100% { content: ''; }
+    }
+    #result {
+      white-space: pre-wrap;
+      margin-top: 2rem;
+      background: white;
+      color: black;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>明細書AI分析結果</h1>
+  <div id="loading" class="loading-dots">現在分析中です</div>
+  <div id="result" style="display:none;"></div>
+
+  <script>
+    // URLから?result=...を取得
+    const params = new URLSearchParams(window.location.search);
+    const resultText = params.get('result');
+
+    if (resultText) {
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('result').innerHTML = decodeURIComponent(resultText)
+          .replace(/\n\n/g, '<br><br>')
+          .replace(/\n/g, '<br>');
+      }, 2000); // 擬似的に2秒後に結果表示（Makeからの遷移後を想定）
+    }
+  </script>
+</body>
+</html>
